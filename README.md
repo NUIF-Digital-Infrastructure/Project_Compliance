@@ -2,158 +2,166 @@
 
 -----
 
-## 1 Industry Benchmarking: The 4 Critical UK Pillars
+## Background Info
 
-To verify if the tool is "industry-ready" for a UK investment company, it must account for these four current regulatory frameworks:
-
-### A. The Anti-Greenwashing Rule (In effect since May 31, 2024)
-
-This is the biggest "noise" filter. Any UK investment firm making sustainability claims must ensure they are **substantiated, clear, and complete**.
-
-  * **Verification:** Does the tool have a module to flag "vague" terms? The FCA now mandates that terms like "green" or "ethical" cannot be used unless they meet specific sustainability labels.
-
-### B. SDR & Investment Labels (Phased in through Dec 2026)
-
-As of late 2024, the UK has four official labels: **Sustainability Focus, Sustainability Improvers, Sustainability Impact,** and **Sustainability Mixed Goals**.
-
-  * **Industry Standard:** A professional tool must verify that at least **70%** of the fund's assets align with its stated sustainability objective. If the tool doesn't have a "70% check," it is not up to date.
-
-### C. The Consumer Duty (Annual Assessments starting July 2024)
-
-This requires firms to prove "good outcomes" for retail customers.
-
-  * **The Check:** An industry-grade tool must track **Price and Value** assessments. It’s no longer just "is this trade legal?" but "is this trade in the best interest of the end client's value?"
-
-### D. Operational Resilience (Mandatory by March 31, 2025)
-
-UK regulators now explicitly monitor how firms handle "important business services" during disruptions.
-
-  * **The Check:** If this tool is meant to be a "gatekeeper," it needs to show it has **incident reporting** and **tolerance levels** built-in.
-
------
-
-## 2 How to Verify The Flowchart
-
-**"Stress Test"**:
-
-1.  **Jurisdiction Gap:** Does the flow chart distinguish between **Professional** and **Retail** clients? In the UK, the rules for a "Retail" investor (under Consumer Duty) are vastly stricter than for a "Sophisticated" investor.
-2.  **The "Manual Override" Log:** In real UK firms, compliance isn't just a "Yes/No." It requires a **Senior Manager** to sign off on high-risk breaches (part of the **SM\&CR**—Senior Managers and Certification Regime). If the tool doesn't have an "Escalation Path," it’s too simple for a real fund.
-3.  **Data Substantiation:** Where is the "source of truth"? A UK fund manager would ask: *"Which API are you using to verify the ESG rating? Is it MSCI? Sustainalytics?"* Using a "base" scraper isn't enough for UK compliance; it must be a recognized data provider.
-
------
-
-### Summary
-
-To make this tool "general enough" for the UK ecosystem, ensure the focus on **FCA Naming and Marketing Rules**. If the tool can reliably flag when an analyst uses a "restricted term" (like *Impact*) without the correct data to back it up, you have a product that real UK compliance officers would actually use.
-
-
-To make this "lightweight but essential," we will frame it as a **"Pre-Flight Compliance Check."**
-
-Think of it like a "Linter" for code—it’s the tool a Junior or Mid-level Analyst runs *before* they present to the Investment Committee.
-
-## **10-Point Checklist**, for **2024–2026 UK Standards**.
-
-### The "Pre-Flight" UK Compliance Checklist
-
-To ensure this tool is ready for the UK ecosystem, must implement logic for these 10 items.
-
-#### 1. The "Anti-Greenwashing" Filter (FCA FG24/3)
-* **The Check:** Scan the "Investment Thesis" text for restricted terms (e.g., *Green, Sustainable, Impact, Ethical*).
-* **The Action:** If these terms are used, the tool must trigger a popup asking: *"Can this claim be substantiated with a specific data point or SDR label?"*
-* **Significance:** Mandatory in the UK as of May 2024.
-
-#### 2. The 10% Concentration Guardrail
-* **The Check:** `(Current Holding + Proposed Trade) / Total Fund AUM`.
-* **The Action:** Hard-block any trade that puts a single ticker above 10% of the total fund value.
-* **Significance:** Standard risk management to prevent "single-point-of-failure" in a portfolio.
-
-#### 3. Liquidity "Exit" Analysis
-* **The Check:** `Trade Size / 30-Day Average Daily Volume (ADV)`.
-* **The Action:** Warning flag if the trade is >2% of the ADV. 
-* **Significance:** In a real fund, a large trade "moves the market." This ensures the analyst isn't proposing a trade we can't actually execute without slippage.
-
-#### 4. The Consumer Duty "Retail vs. Pro" Toggle
-* **The Check:** A simple dropdown: *Is this fund for Retail or Professional investors?*
-* **The Action:** If "Retail," apply stricter risk warnings and a "Fair Value" justification box.
-* **Significance:** Aligns with the **FCA Consumer Duty (Principle 12)** which requires "good outcomes" for retail customers.
-
-#### 5. Sector Exposure Cap (The 25% Rule)
-* **The Check:** Sum of all tickers in a specific GICS Sector (e.g., "Information Technology").
-* **The Action:** Warning if total sector exposure exceeds 25%.
-* **Significance:** Prevents "Hidden Correlation" where an analyst thinks they are diversified but is actually 50% in Tech.
-
-#### 6. The "SM&CR" Audit Trail
-* **The Check:** Every "Approved" or "Rejected" trade must be logged with a timestamp and a User ID.
-* **The Action:** Create an "Audit Log" view for the Software Admin.
-* **Significance:** Under the **Senior Managers and Certification Regime**, firms must be able to prove *who* approved *what* and *why*.
-
-#### 7. Volatility Check (Portfolio Beta)
-* **The Check:** Calculate the Ticker's $\beta$ (Beta) relative to the FTSE 100.
-* **The Action:** Warning if $\beta > 1.4$.
-* **Significance:** High-beta stocks can dramatically change the fund's risk profile overnight.
-
-#### 8. Sanctions & Restricted List Check
-* **The Check:** A simple JSON array (the "Blacklist") that the Admin can update.
-* **The Action:** Immediate block if the ticker is on the list (e.g., "No Russian energy stocks").
-* **Significance:** Fundamental legal compliance for UK firms.
-
-#### 9. The "Golden Source" Verification
-* **The Check:** Does the ticker exist on a primary UK exchange?
-* **The Action:** Verify ticker via `yfinance` or a similar API.
-* **Significance:** Prevents errors like "fat-fingering" a ticker or trying to buy a de-listed stock.
-
-#### 10. The "Executive Summary" PDF Export
-* **The Check:** A button to export the result.
-* **The Action:** Generate a 1-page PDF showing the trade details and the "Pass/Fail" results of the checks above.
-* **Significance:** This is the "Artifact" the analyst brings to their meeting. It’s the "Value" that keeps them coming back.
+A stock from a restricted sector typically refers to a company operating in an industry that is excluded from certain investment portfolios due to regulatory, ethical, or mandate-specific constraints (e.g., gambling, tobacco, or weapons). To "check growth" and verify if it is "below 10% of group revenue" means assessing whether a specific, potentially controversial business segment contributes a small enough portion of the overall company’s income to still qualify for investment.
 
 ---
 
-Capitalize on "laziness" (User Experience). The user provides one identifier, and the system does the heavy lifting to generate a professional output.
+## 1. Restricted Sectors
 
-This design aligns with the **FCA’s operational efficiency guidelines** and the **Consumer Duty’s** requirement for clear, actionable information without "unreasonable barriers".
+In finance, sectors are restricted based on specific criteria:
 
----
-
-## 1. The Inputs
-
-Split inputs into **Automated** and **Manual**. The user only touches the Manual items.
-
-### A. Manual User Inputs (The "60-Second" Form)
-* **Ticker/ISIN:** (e.g., `AZN.L` or `BP.L`). *This is the "1-Key" that triggers the rest of the data pull.*
-* **Proposed Position Size:** Entered in GBP (£).
-* **Investment Horizon:** A simple dropdown (e.g., <1yr, 1-3yrs, 5yrs+).
-* **Sustainability Label:** A dropdown of the 4 UK SDR Labels (Focus, Improver, Impact, Mixed) or "None."
-* **Thesis "Snapshot":** A 280-character text box (Think "Twitter for Finance").
-
-### B. Automated Inputs (BTS)
-The tool pulls these via `yfinance` or a UK-specific API to save the user time:
-* **Current Market Price:** To calculate the number of shares.
-* **Average Daily Volume (30D):** To calculate liquidity.
-* **Sector/Industry Classification:** To check concentration.
-* **Beta:** To measure volatility relative to the FTSE 100.
-* **Sanctions Check:** Cross-reference the ticker against the [UK Office of Financial Sanctions Implementation (OFSI) list]
+* **SRI/ESG Mandates:** Many funds "restrict" sectors like fossil fuels, weapons, or adult entertainment to align with Socially Responsible Investing (SRI) goals.
+* **Regulatory Compliance:** In some jurisdictions, institutional investors are prohibited from owning companies in sectors deemed high-risk or politically sensitive.
+* **Internal Bank Lists:** Financial institutions maintain "Restricted Lists" for stocks where they have material non-public information, preventing employees from trading them to avoid insider trading.
 
 ---
 
-## 2. The Output (The "Pre-Flight" Report)
+## 2. Checking Growth
 
-The output should be a single-page, high-contrast dashboard (or PDF) that an analyst can screenshot and send to their Lead. In the UK, this serves as a **Record of Suitability**.
+Checking growth involves evaluating the trajectory of the restricted segment versus the parent company:
 
-### Section 1: The "Traffic Light" Status
-A large visual indicator based on the 10-point checklist:
-* **PASS:** Trade is within all fund mandates and FCA guidelines.
-* **WARNING:** Trade is legal but exceeds a "Soft Limit" (e.g., high volatility).
-* **REJECTED:** Trade violates a "Hard Limit" (e.g., Sanctions or 10% Concentration).
+* **Revenue Growth:** Is the "restricted" part of the business growing faster than the core business? If so, it might soon exceed the 10% threshold.
+* **Earnings Growth:** Investors look at the PEG ratio (Price-to-Earnings Growth) to see if they are paying a fair price for the expected expansion of that segment.
 
-### Section 2: Key Metrics Table
-| Metric | Result | Benchmark | Status |
-| :--- | :--- | :--- | :--- |
-| **Fund Concentration** | 6.2% | Max 10.0% | PASS |
-| **Days to Liquidate** | 0.8 Days | Max 2.0 Days | PASS |
-| **Portfolio Beta Shift**| +0.05 | Max +0.20 | PASS |
-| **SDR Alignment** | "Improver" | SDR Validated | PASS |
+---
 
-### Section 3: The "FCA Compliance Memo"
-A generated paragraph that uses professional terminology:
-> *"This trade proposal for [Ticker] has been screened against the UK SDR Anti-Greenwashing rule and current OFSI Sanctions lists. As of [Date], the trade represents a 'Fair Value' outcome for a [Professional/Retail] client profile under Consumer Duty guidelines."*
+## 3. The "10% of Group Revenue" Rule
+
+This is a common "de minimis" threshold used to determine if a company's involvement in a restricted activity is negligible enough to ignore.
+
+* **How to Check:** Divide the Segment Revenue by the Total Group Revenue.
+* **Formula:**
+
+
+  $(Restricted\ Segment\ Revenue / Total\ Company\ Revenue) \times 100$
+
+* **Reporting Requirements:** Under accounting standards like IFRS 8 or ASC 280, companies must disclose segments that contribute 10% or more to total revenue, assets, or profits.
+* **Investment Implications:** If a company generates only 5% of its revenue from a restricted sector (like a supermarket selling a small amount of tobacco), it may still be included in an "ethical" fund that has a 10% tolerance limit.
+
+---
+
+## 4. Check for Sustainability Goals
+
+This is the Inclusionary Step. Before looking for reasons to reject a stock, you first verify if it contributes positively to at least one established sustainability framework, such as the [UN Sustainable Development Goals (SDGs)].
+
+* **The Goal:** To identify companies whose core business (like renewable energy or accessible healthcare) actively advances a sustainable future.
+
+---
+
+## 5. Monitoring Flags Concern
+
+This is the Risk Detection Step. You use data from ESG providers (like MSCI or Sustainalytics) to see if there are any "red flags" or "controversies" attached to the company.
+
+* **Common Flags:** Ongoing lawsuits, environmental spills, labor strikes, or allegations of bribery.
+* **The Goal:** To trigger a deeper manual review if the automated "flag" suggests the company's behavior might contradict its sustainability claims.
+
+---
+
+## 6. Check 10% Exclusion Violation
+
+This is the Threshold Test. Many funds use a "de minimis" rule—they will tolerate a small amount of "restricted" activity, but only up to a certain limit (usually 10% of total revenue).
+
+* **Example:** A massive tech conglomerate that earns 2% of its revenue from a defense contract might be allowed, whereas a dedicated weapons manufacturer would be excluded.
+* **The Goal:** To determine if the "bad" part of the business is small enough to be considered incidental rather than core.
+
+---
+
+## 7. Unethical with Substantiated Evidence
+
+This is the Final Veto Step. Even if a company passes the 10% revenue test, it can still be excluded if there is substantiated evidence of severe unethical behavior that cannot be quantified by revenue alone.
+
+* **Substantiated Evidence:** Verifiable proof from third-party audits, court rulings, or investigative journalism (e.g., proof of forced labor in a supply chain).
+* **The Goal:** To provide a moral backstop. If the company is technically compliant with the 10% rule but is fundamentally "unethical" based on proven facts, it is disqualified entirely.
+
+---
+
+## 8. "Is it corrected?" – Verification of Remediation
+
+The compliance officer or fund manager checks if the specific "unethical" behavior or "red flag" is a thing of the past.
+
+* **Substantiated Fix:** Has the company fired the responsible executives, paid the fines, or changed its supply chain policies?
+* **Audit Evidence:** Is there [independent verification]
+
+---
+
+# Division of Tasks
+
+* **Sarah & Shalom:** Build the core of the Flow chart - use Mock Values/Dummy data to test out the flow
+* **Ryan:** Search for API Keys to extract core information and data points from ticker inputs. Can get as creative in terms of data extraction
+
+---
+
+# Decision Flow
+
+## Step 1: Check if Stock is from Restricted Sector
+
+* If Yes - proceed to next check
+* No - Invest
+
+### Restricted Sectors (17 Mandatory Notification Sectors)
+
+Under the NSI Act, 17 sectors are designated as requiring mandatory notification for investments:
+
+* Advanced Materials
+* Advanced Robotics
+* Artificial Intelligence
+* Civil Nuclear
+* Communications
+* Computing Hardware
+* Critical Suppliers to Government
+* Cryptographic Authentication
+* Data Infrastructure
+* Defence
+* Energy
+* Military and Dual-Use
+* Quantum Technologies
+* Satellite and Space Technologies
+* Suppliers to the Emergency Services
+* Synthetic Biology
+* Transport
+
+---
+
+## Step 2: Check Restricted Sector Growth
+
+Check if it is below 10% of group revenue:
+
+* If Yes - proceed to next check
+* No - Do not Invest
+
+---
+
+## Step 3: Check Sustainability Goals
+
+* If Yes - Invest But - proceed to next check
+* No - Do not invest
+
+---
+
+## Step 4: Monitoring Flags Concern
+
+* Yes - proceed to next check
+* No - No action
+
+---
+
+## Step 5: Check 10% Exclusion Violation
+
+* Yes - Disinvest
+* No - Proceed to next check
+
+---
+
+## Step 6: Unethical with Substantiated Evidence
+
+* Yes - proceed to next check
+* No - No action
+
+---
+
+## Step 7: Engage – Is it Corrected?
+
+* If Yes - no further action
+* If No - disinvest
