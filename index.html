@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Compliance Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Stock Compliance Checker</h1>
+            <p>Evaluate whether a stock meets investment compliance criteria</p>
+        </header>
+
+        <main>
+            <!-- Input Section -->
+            <section id="inputSection" class="section">
+                <div class="input-group">
+                    <label for="ticker">Stock Ticker:</label>
+                    <input type="text" id="ticker" placeholder="e.g., AAPL, MSFT" maxlength="5">
+                    <button id="submitBtn">Check Compliance</button>
+                </div>
+                <div id="inputError" class="error"></div>
+            </section>
+
+            <!-- Progress Bar -->
+            <div id="progressSection" class="progress-section hidden">
+                <div class="progress-info">
+                    <span id="stepCounter">Step 1 of 7</span>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Info Display -->
+            <section id="stockInfoSection" class="section hidden">
+                <div class="stock-card">
+                    <h2 id="companyName"></h2>
+                    <p id="companyInfo"></p>
+                </div>
+            </section>
+
+            <!-- Compliance Checklist -->
+            <section id="checklistSection" class="section hidden">
+                <div class="checklist">
+                    <!-- Step 1: Restricted Sector Check -->
+                    <div id="step1" class="step">
+                        <div class="step-header">
+                            <h3>Step 1: Check if Stock is from Restricted Sector</h3>
+                            <span class="step-number">1/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Is this company in one of the 17 NSI restricted sectors?</p>
+                            <div id="step1Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="1" data-result="yes">Yes - Restricted</button>
+                                <button class="no-btn" data-step="1" data-result="no">No - Not Restricted</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Sector Growth Check -->
+                    <div id="step2" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 2: Check Restricted Sector Growth</h3>
+                            <span class="step-number">2/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Is the restricted segment below 10% of group revenue?</p>
+                            <div id="step2Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="2" data-result="yes">Yes - Below 10%</button>
+                                <button class="no-btn" data-step="2" data-result="no">No - Above 10%</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Sustainability Goals -->
+                    <div id="step3" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 3: Check Sustainability Goals</h3>
+                            <span class="step-number">3/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Does the company contribute to UN Sustainable Development Goals?</p>
+                            <div id="step3Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="3" data-result="yes">Yes - Contributes to SDGs</button>
+                                <button class="no-btn" data-step="3" data-result="no">No - No contribution</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Monitoring Flags -->
+                    <div id="step4" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 4: Monitoring Flags Concern</h3>
+                            <span class="step-number">4/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Are there any ESG red flags or controversies?</p>
+                            <div id="step4Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="4" data-result="yes">Yes - Flags Present</button>
+                                <button class="no-btn" data-step="4" data-result="no">No - No Flags</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: 10% Exclusion Violation -->
+                    <div id="step5" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 5: Check 10% Exclusion Violation</h3>
+                            <span class="step-number">5/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Does the company violate the 10% de minimis rule?</p>
+                            <div id="step5Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="5" data-result="yes">Yes - Violates</button>
+                                <button class="no-btn" data-step="5" data-result="no">No - Complies</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Unethical Evidence -->
+                    <div id="step6" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 6: Unethical with Substantiated Evidence</h3>
+                            <span class="step-number">6/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Is there substantiated evidence of unethical behavior?</p>
+                            <div id="step6Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="6" data-result="yes">Yes - Evidence Found</button>
+                                <button class="no-btn" data-step="6" data-result="no">No - No Evidence</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Corrected Issues -->
+                    <div id="step7" class="step hidden">
+                        <div class="step-header">
+                            <h3>Step 7: Engagement - Is it Corrected?</h3>
+                            <span class="step-number">7/7</span>
+                        </div>
+                        <div class="step-content">
+                            <p class="description">Has the company remediated or corrected the issues?</p>
+                            <div id="step7Result" class="mock-data"></div>
+                            <div class="button-group">
+                                <button class="yes-btn" data-step="7" data-result="yes">Yes - Corrected</button>
+                                <button class="no-btn" data-step="7" data-result="no">No - Not Corrected</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation">
+                    <button id="prevBtn" class="nav-btn hidden">← Previous</button>
+                    <button id="nextBtn" class="nav-btn hidden">Next →</button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="section hidden">
+                <div id="resultCard" class="result-card">
+                    <h2>Compliance Assessment Complete</h2>
+                    <div id="resultContent"></div>
+                </div>
+                <button id="resetBtn" class="reset-btn">Check Another Stock</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Stock Compliance Tool - Using Mock Data for Demonstration</p>
+        </footer>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
