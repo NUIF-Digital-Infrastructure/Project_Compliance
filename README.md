@@ -165,3 +165,7 @@ Check if it is below 10% of group revenue:
 
 * If Yes - no further action
 * If No - disinvest
+
+---
+
+At the end user should be able to view the entire report of the compliance checks done and their result.
